@@ -1,7 +1,6 @@
 package server
 
 import (
-	"fmt"
 	"net/http"
 
 	"github.com/gobridge-kr/todo-app/server/controller"
@@ -70,6 +69,6 @@ func (s *Server) Route(path string, controller controller.Controller) {
 }
 
 // Serve starts the actual serving job
-func (s *Server) Serve(port int) {
-	http.ListenAndServe(":"+fmt.Sprint(port), nil)
+func (s *Server) Serve(port string) {
+	http.ListenAndServe(":"+port, nil)
 }

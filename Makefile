@@ -34,5 +34,14 @@ test: test-server test-client
 run:
 	go run cmd/main.go
 
+ifneq ($(origin HEROKU_APP_NAME),undefined)
+	OPTS := -a $(HEROKU_APP_NAME)
+endif
+.PHONY: deploy
+deploy:
+	heroku container:login
+	heroku container:push $(OPTS) web
+	heroku container:release $(OPTS) web
+
 .PHONY: all
 all: clean generate test

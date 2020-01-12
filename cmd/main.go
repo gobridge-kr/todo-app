@@ -1,8 +1,8 @@
 package main
 
 import (
-	"fmt"
 	"net/http"
+	"os"
 
 	"github.com/gobridge-kr/todo-app/server"
 	"github.com/gobridge-kr/todo-app/server/controller"
@@ -10,9 +10,19 @@ import (
 	"github.com/gobridge-kr/todo-app/server/middleware"
 )
 
-const port = 8080
+var (
+	port    = "8080"
+	baseURL = "http://localhost:" + port
+)
 
-var baseURL = fmt.Sprintf("http://localhost:%d", port)
+func init() {
+	if env := os.Getenv("PORT"); env != "" {
+		port = env
+	}
+	if env := os.Getenv("BASE_URL"); env != "" {
+		baseURL = env
+	}
+}
 
 func main() {
 	dbConfig := database.Config{

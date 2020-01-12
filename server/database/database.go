@@ -66,7 +66,7 @@ func (d *Database) AddTodo(params map[string]interface{}) (model.Todo, error) {
 		Title:     title,
 		Completed: false,
 		Order:     int64(order),
-		URL:       fmt.Sprintf("%s/%d", d.config.BaseURL, d.idCounter),
+		URL:       fmt.Sprintf("%s/%v", d.config.BaseURL, d.idCounter),
 	}
 	d.todos = append(d.todos, todo)
 	return todo, nil
