@@ -1,0 +1,3 @@
+[submodule "test/client/todo-backend-js-spec"]
+	path = test/client/todo-backend-js-spec
+	url = https://github.com/TodoBackend/todo-backend-js-spec

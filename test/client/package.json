@@ -1,0 +1,23 @@
+{
+  "name": "client",
+  "private": true,
+  "description": "Client spec for github.com/gobridge-kr/todo-app",
+  "scripts": {
+    "test": "mocha *.js"
+  },
+  "author": "Wooseop Kim",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/gobridge-kr/todo-app"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "chai-as-promised": "^7.1.1",
+    "jquery": "^2.2.4",
+    "jsdom": "^15.2.1",
+    "mocha": "^7.0.0",
+    "q": "^1.5.1",
+    "underscore": "^1.9.2"
+  }
+}
