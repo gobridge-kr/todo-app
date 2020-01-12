@@ -71,7 +71,7 @@ func (d *Database) UpdateTodo(id string, params map[string]interface{}) (model.T
 			if title, ok := params["title"].(string); ok {
 				todo.Title = title
 			}
-			if completed, ok := params["order"].(bool); ok {
+			if completed, ok := params["completed"].(bool); ok {
 				todo.Completed = completed
 			}
 			if order, ok := params["order"].(int); ok {
