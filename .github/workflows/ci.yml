@@ -27,19 +27,19 @@ jobs:
       git submodule sync --recursive
       git -c "http.extraheader=$AUTH_HEADER" -c protocol.version=2 submodule update --init --force --recursive --depth=1
     - run: make test
-  deploy:
+  create-deployment:
     if: github.ref == 'refs/heads/master'
     runs-on: ubuntu-latest
     needs: [lint, test]
     steps:
-    - uses: actions/checkout@v1
-    - run: make clean generate
-    - name: Checkout submodules
-      run: |
-      AUTH_HEADER="$(git config --local --get http.https://github.com/.extraheader)"
-      git submodule sync --recursive
-      git -c "http.extraheader=$AUTH_HEADER" -c protocol.version=2 submodule update --init --force --recursive --depth=1
-    - env:
-        HEROKU_API_KEY: {{ secrets.HEROKU_API_KEY }}
-        HEROKU_APP_NAME: arcane-waters-53217
-      run: make deploy
+      - name: Create deployment
+        id: create_deployment
+        uses: octokit/request-action@v2.x
+        with:
+          route: POST /repos/:owner/:repo/deployments
+          owner: gobridge-kr
+          repo: ${{ github.repository }}
+          ref: $${{ github.sha }}
+          description: Deploy request from GitHub workflow
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
