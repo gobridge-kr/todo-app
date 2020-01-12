@@ -10,8 +10,8 @@ jobs:
 			with:
 				go-version: 1.13
     - uses: actions/checkout@v1
-    - run: go get -u golang.org/x/lint/golint
     - run: make clean generate
+    - run: go get -u golang.org/x/lint/golint
     - run: make lint
   test:
     runs-on: ubuntu-latest
@@ -20,12 +20,12 @@ jobs:
 			with:
 				go-version: 1.13
     - uses: actions/checkout@v1
+    - run: make clean generate
     - name: Checkout submodules
       run: |
       AUTH_HEADER="$(git config --local --get http.https://github.com/.extraheader)"
       git submodule sync --recursive
       git -c "http.extraheader=$AUTH_HEADER" -c protocol.version=2 submodule update --init --force --recursive --depth=1
-    - run: make clean generate
     - run: make test
   deploy:
     if: github.ref == 'refs/heads/master'
