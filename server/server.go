@@ -7,21 +7,25 @@ import (
 	"github.com/gobridge-kr/todo-app/server/controller"
 )
 
+// Server represents current server status
 type Server struct {
 	baseURL     string
 	middlewares []func(w http.ResponseWriter, r *http.Request)
 }
 
+// New creates a new Server with given URL
 func New(baseURL string) *Server {
 	return &Server{
 		baseURL: baseURL,
 	}
 }
 
+// Middleware configures middleware to process requests
 func (s *Server) Middleware(middleware func(w http.ResponseWriter, r *http.Request)) {
 	s.middlewares = append(s.middlewares, middleware)
 }
 
+// Route configures routing map
 func (s *Server) Route(path string, controller controller.Controller) {
 	http.HandleFunc(path, func(w http.ResponseWriter, r *http.Request) {
 
@@ -65,6 +69,7 @@ func (s *Server) Route(path string, controller controller.Controller) {
 	})
 }
 
+// Serve starts the actual serving job
 func (s *Server) Serve(port int) {
 	http.ListenAndServe(":"+fmt.Sprint(port), nil)
 }

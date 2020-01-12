@@ -4,6 +4,7 @@ import (
 	"net/http"
 )
 
+// Controller is an abstract base type for MVC controllers
 type Controller interface {
 	GetOne(w http.ResponseWriter, r *http.Request, id string)
 	GetAll(w http.ResponseWriter, r *http.Request)

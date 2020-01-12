@@ -8,20 +8,25 @@ import (
 )
 
 var (
+	// ErrItemNotFound means the requested item couldn't be found
 	ErrItemNotFound = errors.New("Item Not Found")
-	ErrBadRequest   = errors.New("Bad Request")
+	// ErrBadRequest means request data was ill-formed, or invalid
+	ErrBadRequest = errors.New("Bad Request")
 )
 
+// Database represents current database state
 type Database struct {
 	idCounter int
 	todos     []model.Todo
 	config    Config
 }
 
+// Config is configuration data for a database
 type Config struct {
 	BaseURL string
 }
 
+// New creates a Database with given Config
 func New(config Config) *Database {
 	return &Database{
 		idCounter: 0,
@@ -30,10 +35,12 @@ func New(config Config) *Database {
 	}
 }
 
+// GetTodos returns all todos
 func (d *Database) GetTodos() []model.Todo {
 	return d.todos
 }
 
+// GetTodo retrieves a todo by given ID
 func (d *Database) GetTodo(id string) (model.Todo, error) {
 	for _, value := range d.todos {
 		if value.ID == id {
@@ -43,6 +50,7 @@ func (d *Database) GetTodo(id string) (model.Todo, error) {
 	return model.Todo{}, ErrItemNotFound
 }
 
+// AddTodo creates a todo with params map
 func (d *Database) AddTodo(params map[string]interface{}) (model.Todo, error) {
 	d.idCounter++
 	title, ok := params["title"].(string)
@@ -64,6 +72,7 @@ func (d *Database) AddTodo(params map[string]interface{}) (model.Todo, error) {
 	return todo, nil
 }
 
+// UpdateTodo updates a todo with given ID
 func (d *Database) UpdateTodo(id string, params map[string]interface{}) (model.Todo, error) {
 	for index, value := range d.todos {
 		if value.ID == id {
@@ -84,6 +93,7 @@ func (d *Database) UpdateTodo(id string, params map[string]interface{}) (model.T
 	return model.Todo{}, ErrItemNotFound
 }
 
+// DeleteTodo deletes a todo with given ID
 func (d *Database) DeleteTodo(id string) (model.Todo, error) {
 	for index, value := range d.todos {
 		if value.ID == id {
@@ -94,6 +104,7 @@ func (d *Database) DeleteTodo(id string) (model.Todo, error) {
 	return model.Todo{}, ErrItemNotFound
 }
 
+// DeleteTodos deletes all todos
 func (d *Database) DeleteTodos() {
 	d.todos = make([]model.Todo, 0)
 }
