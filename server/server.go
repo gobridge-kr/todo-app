@@ -7,22 +7,22 @@ import (
 	"github.com/gobridge-kr/todo-app/server/controller"
 )
 
-type server struct {
+type Server struct {
 	baseURL     string
 	middlewares []func(w http.ResponseWriter, r *http.Request)
 }
 
-func New(baseURL string) *server {
-	return &server{
+func New(baseURL string) *Server {
+	return &Server{
 		baseURL: baseURL,
 	}
 }
 
-func (s *server) Middleware(middleware func(w http.ResponseWriter, r *http.Request)) {
+func (s *Server) Middleware(middleware func(w http.ResponseWriter, r *http.Request)) {
 	s.middlewares = append(s.middlewares, middleware)
 }
 
-func (s *server) Route(path string, controller controller.Controller) {
+func (s *Server) Route(path string, controller controller.Controller) {
 	http.HandleFunc(path, func(w http.ResponseWriter, r *http.Request) {
 
 		for _, middleware := range s.middlewares {
@@ -65,6 +65,6 @@ func (s *server) Route(path string, controller controller.Controller) {
 	})
 }
 
-func (s *server) Serve(port int) {
+func (s *Server) Serve(port int) {
 	http.ListenAndServe(":"+fmt.Sprint(port), nil)
 }
