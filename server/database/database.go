@@ -49,7 +49,7 @@ func (d *Database) AddTodo(params map[string]interface{}) (model.Todo, error) {
 	if !ok {
 		return model.Todo{}, ErrBadRequest
 	}
-	order, ok := params["order"].(int)
+	order, ok := params["order"].(float64)
 	if !ok {
 		order = 0
 	}
@@ -57,7 +57,7 @@ func (d *Database) AddTodo(params map[string]interface{}) (model.Todo, error) {
 		ID:        fmt.Sprint(d.idCounter),
 		Title:     title,
 		Completed: false,
-		Order:     order,
+		Order:     int64(order),
 		URL:       fmt.Sprintf("%s/%d", d.config.BaseURL, d.idCounter),
 	}
 	d.todos = append(d.todos, todo)
@@ -74,8 +74,8 @@ func (d *Database) UpdateTodo(id string, params map[string]interface{}) (model.T
 			if completed, ok := params["completed"].(bool); ok {
 				todo.Completed = completed
 			}
-			if order, ok := params["order"].(int); ok {
-				todo.Order = order
+			if order, ok := params["order"].(float64); ok {
+				todo.Order = int64(order)
 			}
 			d.todos[index] = todo
 			return todo, nil
