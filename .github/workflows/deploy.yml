@@ -7,6 +7,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
+      - name: Install binaries
+        run: |
+          echo "::add-path::$(go env GOPATH)/bin"
+          go get -u github.com/golang/mock/mockgen
       - run: make clean generate
       - name: Checkout submodules
         run: |
