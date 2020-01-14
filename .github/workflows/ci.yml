@@ -30,6 +30,7 @@ jobs:
           go get -u github.com/golang/mock/mockgen
       - run: make clean generate
       - name: Checkout submodules
+        shell: bash
         run: |
           AUTH_HEADER="$(git config --local --get http.https://github.com/.extraheader)"
           git submodule sync --recursive
