@@ -7,6 +7,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
+      - run: go get -u github.com/golang/mock/mockgen
       - run: make clean generate
       - name: Checkout submodules
         run: |
