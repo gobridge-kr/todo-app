@@ -6,34 +6,34 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v1
-    - run: make clean generate
-    - name: Checkout submodules
-      run: |
-      AUTH_HEADER="$(git config --local --get http.https://github.com/.extraheader)"
-      git submodule sync --recursive
-      git -c "http.extraheader=$AUTH_HEADER" -c protocol.version=2 submodule update --init --force --recursive --depth=1
-    - name: Deployment pending
-      uses: deliverybot/deployment-status@v1
-      with:
-        state: pending
-        token: ${{ secrets.GITHUB_TOKEN }}
-    - id: deploy
-      env:
-        HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-        HEROKU_APP_NAME: arcane-waters-53217
-      run: make deploy
-      continue-on-error: true
-    - name: Deployment success
-      if: success()
-      uses: deliverybot/deployment-status@v1
-      with:
-        state: success
-        token: ${{ secrets.GITHUB_TOKEN }}
-    - name: Deployment failure
-      if: failure()
-      uses: deliverybot/deployment-status@v1
-      with:
-        state: failure
-        token: ${{ secrets.GITHUB_TOKEN }}
+      - uses: actions/checkout@v1
+      - run: make clean generate
+      - name: Checkout submodules
+        run: |
+          AUTH_HEADER="$(git config --local --get http.https://github.com/.extraheader)"
+          git submodule sync --recursive
+          git -c "http.extraheader=$AUTH_HEADER" -c protocol.version=2 submodule update --init --force --recursive --depth=1
+      - name: Deployment pending
+        uses: deliverybot/deployment-status@v1
+        with:
+          state: pending
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - id: deploy
+        env:
+          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+          HEROKU_APP_NAME: arcane-waters-53217
+        run: make deploy
+        continue-on-error: true
+      - name: Deployment success
+        if: success()
+        uses: deliverybot/deployment-status@v1
+        with:
+          state: success
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Deployment failure
+        if: failure()
+        uses: deliverybot/deployment-status@v1
+        with:
+          state: failure
+          token: ${{ secrets.GITHUB_TOKEN }}
     
