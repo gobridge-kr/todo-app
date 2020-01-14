@@ -7,17 +7,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
+        with:
+          submodules: true
       - name: Install binaries
         run: |
           echo "::add-path::$(go env GOPATH)/bin"
           go get -u github.com/golang/mock/mockgen
       - run: make clean generate
-      - name: Checkout submodules
-        shell: bash
-        run: |
-          AUTH_HEADER="$(git config --local --get http.https://github.com/.extraheader)"
-          git submodule sync --recursive
-          git -c "http.extraheader=$AUTH_HEADER" -c protocol.version=2 submodule update --init --force --recursive --depth=1
       - name: Deployment pending
         uses: deliverybot/deployment-status@v1
         with:
