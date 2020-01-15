@@ -49,7 +49,7 @@ jobs:
           route: POST /repos/:owner/:repo/deployments
           owner: ${{ steps.parse_repository_name.outputs.OWNER }}
           repo: ${{ steps.parse_repository_name.outputs.REPO }}
-          ref: $${{ github.sha }}
+          ref: ${{ github.sha }}
           description: Deploy request from GitHub workflow
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
