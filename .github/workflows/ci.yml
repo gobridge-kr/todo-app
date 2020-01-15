@@ -53,4 +53,4 @@ jobs:
           required_contexts: '[]'
           description: Deploy request from GitHub workflow
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_DEPLOY_TOKEN }}
